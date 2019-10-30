@@ -1,0 +1,29 @@
+<meta charset="UTF-8">
+
+<form action="" name="person">
+    <input type="text" name="Имя" value="Иван"><br>
+    <input type="text" name="Фамилия" value="Иванов"><br>
+    <input type="text" name="Телефон" value="+7123456789"><br>
+    <input type="text" name="test" value=""><br>
+    <button>Отправить</button>
+</form>
+
+<script>
+    var object = {};
+    document.querySelector('button').addEventListener('click', (e) => {
+        e.preventDefault();
+        var formData = new FormData(document.forms.person);
+        formData.forEach(function (value, key) {
+            object[key] = value;
+        });
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'func.php');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send('param=' + JSON.stringify(object));
+        xhr.addEventListener("readystatechange", () => {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(xhr.response);
+            }
+        });
+    });
+</script>
