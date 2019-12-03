@@ -1,14 +1,27 @@
 <meta charset="UTF-8">
+<style>
+    form input {
+        display: block;
+        margin: 25px 0;
+        padding: 5px;
+    }
+    button {
+        cursor: pointer;
+        padding: 5px;
+    }
+</style>
 
 <form action="" name="person">
-    <input type="text" name="Имя" value="Иван"><br>
-    <input type="text" name="Фамилия" value="Иванов"><br>
-    <input type="text" name="Телефон" value="+7123456789"><br>
-    <input type="text" name="test" value=""><br>
+    <input type="text" name="theme" value="">
+    <input type="text" name="Имя" value="Иван">
+    <input type="text" name="Фамилия" value="Иванов">
+    <input type="text" name="Телефон" value="+7123456789">
     <button>Отправить</button>
 </form>
 
 <script>
+    document.querySelector('input[name="theme"]').value = 'Заявка с сайта ' + document.location.host;
+
     var object = {};
     document.querySelector('button').addEventListener('click', (e) => {
         e.preventDefault();
@@ -17,7 +30,7 @@
             object[key] = value;
         });
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'func.php');
+        xhr.open('POST', 'send.php');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.send('param=' + JSON.stringify(object));
         xhr.addEventListener("readystatechange", () => {
