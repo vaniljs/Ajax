@@ -1,42 +1,38 @@
-<meta charset="UTF-8">
-<style>
-    form input {
-        display: block;
-        margin: 25px 0;
-        padding: 5px;
-    }
-    button {
-        cursor: pointer;
-        padding: 5px;
-    }
-</style>
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
 
-<form action="" name="person">
-    <input type="text" name="theme" value="">
-    <input type="text" name="Имя" value="Иван">
-    <input type="text" name="Фамилия" value="Иванов">
-    <input type="text" name="Телефон" value="+7123456789">
-    <button>Отправить</button>
-</form>
+<button>
+    Fetch
+</button>
 
 <script>
-    document.querySelector('input[name="theme"]').value = 'Заявка с сайта ' + document.location.host;
 
-    var object = {};
-    document.querySelector('button').addEventListener('click', (e) => {
-        e.preventDefault();
-        var formData = new FormData(document.forms.person);
-        formData.forEach(function (value, key) {
-            object[key] = value;
-        });
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'send.php');
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.send('param=' + JSON.stringify(object));
-        xhr.addEventListener("readystatechange", () => {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(xhr.response);
-            }
-        });
+    document.querySelector('button').addEventListener('click', async () => {
+        const data = { username1: 'example1', username2: 'example2' };
+        const url = "functions.php";
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                //body: 'username=example',
+                body: ('param=' + JSON.stringify(data)),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+            //const json = await response.json();
+            //console.log('Успех:', json.username);
+            const json = await response.text();
+            console.log(json);
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
     });
+
 </script>
+</body>
+</html>
